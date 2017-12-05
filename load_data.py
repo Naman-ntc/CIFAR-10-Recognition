@@ -15,17 +15,8 @@ def load_all():
 		temp = unpickle(main+str(i+1))
 		data[10000*i:10000*(i+1),:] = temp[b'data']
 		label[10000*i:10000*(i+1)] = temp[b'labels']
-	return {'data':data,'label':label}	
-
-def load_sets():
-	data = [None]*5
-	label = [None]*5
-	for i in range(5):
-		temp = unpickle(main+str(i+1))
-		data[i]= temp[b'data']
-		label[i] = temp[b'labels']
 	return {'data':data,'label':label}
-	
+
 def load_test():
 	temp = unpickle(main[:-11]+"test_batch")
 	data= temp[b'data']
@@ -36,7 +27,7 @@ def load_test():
 #####################################################
 # Uncomment to load images
 
-#CIFAR = load_data.load_all()
+#CIFAR = load_all()
 #data = CIFAR['data']
 #label = CIFAR['label']
 #####################################################
@@ -57,7 +48,7 @@ def load_test():
 
 #plt.imshow(rgb)
 #plt.show()
-#####################################################		
+#####################################################
 
 
 #####################################################
