@@ -7,7 +7,7 @@ from scipy.stats import mode
 
 #Implementing a general K nearest neighbours algorithm
 
-class KNNclassifier(object):
+class KNNclassifier(objec)t:
 	
 	def __init__(self):
 		pass

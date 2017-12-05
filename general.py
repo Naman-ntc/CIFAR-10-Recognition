@@ -70,8 +70,7 @@ class GeneralClassifiers(object):
 		return predict()
 
 	def predict():
-		temp = np.dot(X_test,np.transpose(pars))
-		return np.argmax(temp,axis=1)	
+		pass	
 
 	def give_prediction_and_accuracy(self,X,Y):	
 		#These X and Y are the test sets
