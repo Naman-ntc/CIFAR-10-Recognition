@@ -11,8 +11,8 @@ class GeneralClassifiers(object):
 		#Dimensions of X are as m x n
 		self.X_train = X
 		self.Y_train = Y
-		self.m = X_train.shape[0]
-		self.n = X_train.shape[1]
+		self.m = self.X_train.shape[0]
+		self.n = self.X_train.shape[1]
 		self.k = num_classes
 		self.reg = reg
 		self.epochs = epochs
@@ -42,14 +42,14 @@ class GeneralClassifiers(object):
 	def StandardizeTrain(self):
 		mean = np.mean(self.X_train,axis=0)
 		self.X_train = self.X_train - mean
-		var = np.car(self.X_train,axis=0)
+		var = np.std(self.X_train,axis=0)
 		self.X_train = self.X_train/var
 		return
 
 	def StandardizeTest(self):
 		mean = np.mean(self.X_test,axis=0)
 		self.X_test = self.X_test - mean
-		var = np.car(self.X_test,axis=0)
+		var = np.std(self.X_test,axis=0)
 		self.X_test = self.X_test/var
 		return
 
@@ -83,5 +83,5 @@ class GeneralClassifiers(object):
 		accuracy = self.find_error(Y_predict)
 		return {'prediction' : Y_predict,'accuracy' : accuracy}
 
-	def find_error(prediction):
+	def find_error(self,prediction):
 		return np.count_nonzero(prediction==self.Y_test)			
