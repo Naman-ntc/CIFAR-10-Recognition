@@ -18,7 +18,7 @@ class GeneralClassifiers(object):
 		self.epochs = epochs
 		self.alpha = alpha
 		self.mini_batch_size = mini_batch_size
-		StandardizeTrain()
+		self.StandardizeTrain()
 		return
 
 	def InitializePars():
@@ -39,18 +39,18 @@ class GeneralClassifiers(object):
 	def UpdataMiniBatchSize(self,mini_batch_size):
 		self.mini_batch_size = mini_batch_size
 
-	def StandardizeTrain():
-		mean = np.mean(X_train,axis=0)
-		X_train = X_train - mean
-		var = np.car(X_train,axis=0)
-		X_train = X_train/var
+	def StandardizeTrain(self):
+		mean = np.mean(self.X_train,axis=0)
+		self.X_train = self.X_train - mean
+		var = np.car(self.X_train,axis=0)
+		self.X_train = self.X_train/var
 		return
 
-	def StandardizeTrain():
-		mean = np.mean(X_test,axis=0)
-		X_test = X_test - mean
-		var = np.car(X_test,axis=0)
-		X_test = X_test/var
+	def StandardizeTest(self):
+		mean = np.mean(self.X_test,axis=0)
+		self.X_test = self.X_test - mean
+		var = np.car(self.X_test,axis=0)
+		self.X_test = self.X_test/var
 		return
 
 	def CostFunc():
@@ -66,8 +66,8 @@ class GeneralClassifiers(object):
 		#These X and Y are the test sets
 		#Returns a prediction of what corresponding X to each element of X the label should be
 		self.X_test = X
-		StandardizeTest()
-		return predict()
+		self.StandardizeTest()
+		return self.predict()
 
 	def predict():
 		pass	
@@ -78,10 +78,10 @@ class GeneralClassifiers(object):
 		#analysis of the prediction with respect to true Y
 		self.X_test = X
 		self.Y_test = Y
-		StandardizeTest()
-		Y_predict = predict()
-		accuracy = find_error(Y_predict)
+		self.StandardizeTest()
+		Y_predict = self.predict()
+		accuracy = self.find_error(Y_predict)
 		return {'prediction' : Y_predict,'accuracy' : accuracy}
 
 	def find_error(prediction):
-		return np.count_nonzero(prediction==Y_test)			
+		return np.count_nonzero(prediction==self.Y_test)			

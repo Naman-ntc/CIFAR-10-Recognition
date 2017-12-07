@@ -23,7 +23,7 @@ class KNNclassifier(object):
 		#Returns a prediction of what corresponding X to each element of X the label should be
 		self.X_test = X
 		self.k = k
-		return predict()
+		return self.predict()
 
 	def give_prediction_and_accuracy(self,X,Y,k):
 		#These X and Y are the test sets
@@ -32,27 +32,27 @@ class KNNclassifier(object):
 		self.X_test = X
 		self.Y_test = Y
 		self.k = k
-		Y_predict = predict()
-		accuracy = find_error(Y_predict)
+		Y_predict = self.predict()
+		accuracy = self.find_error(Y_predict)
 		return {'prediction' : Y_predict,'accuracy' : accuracy}
 
 	def update_k(self,k):
 		#Updates the k ok 'k' nearest neighbours
 		self.k = k
-
-	def predict():
-		dists = cdist(X_test,X_train)
-		idx = np.argpartition(dists, k, axis=1)[:,:k]
-		nearest_dists = np.take(Y_train, idx)
+	
+	def predict(self):
+		dists = cdist(self.X_test,self.X_train)
+		idx = np.argpartition(dists, self.k, axis=1)[:,:self.k]
+		nearest_dists = np.take(self.Y_train, idx)
 		out = mode(nearest_dists,axis=1)
 		return out[0]
 
-	def predict_using_KDTree():
-		tree = KDTree(X_train,leafsize=X_train.shape[0]+1)
-		idx = tree.query(X_test,k)[1]
-		nearest_dists = np.take(Y_train, idx)
+	def predict_using_KDTree(self):
+		tree = KDTree(self.X_train,leafsize=self.X_train.shape[0]+1)
+		idx = tree.query(self.X_test,self.k)[1]
+		nearest_dists = np.take(self.Y_train, idx)
 		out = mode(nearest_dists,axis=1)
 		return out[0]
 
-	def find_error(prediction):
-		return np.count_nonzero(prediction==Y_test)
+	def find_error(self,prediction):
+		return np.count_nonzero(prediction==self.Y_test)
