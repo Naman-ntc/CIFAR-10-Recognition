@@ -3,7 +3,7 @@ from knn import KNNclassifier
 from softmax import Softmaxclassifier
 from svm import SVMclassifier
 from neuralnetwork import NeuralNetoworkclassifier
-import numpy
+import numpy as np
 
 CIFAR = load_data.load_all()
 data = CIFAR['data']
@@ -42,9 +42,9 @@ test_label = CIFAR['label']
 
 #######################################################################################################
 # For the Neural Net classifier
-
+np.set_printoptions(threshold=np.nan)
 model = NeuralNetoworkclassifier()
-model.add_data(data[:1000],label[:1000],10,1e-6,10,0.01,100)
+model.add_data(data[:1000],label[:1000],10,1e-7,1000,0.01,100)
 model.InitializePars([3072,300,10])
 model.GradientDescent()
-#print(model.give_prediction_and_accuracy(test_data[:10],test_label[:10])['accuracy'])
+print(model.give_prediction_and_accuracy(test_data[:10],test_label[:10])['accuracy'])

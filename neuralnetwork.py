@@ -11,7 +11,7 @@ class NeuralNetoworkclassifier(GeneralClassifiers):
 		self.sizes = sizes
 		self.biases = [np.random.randn(1,y) for y in sizes[1:]] ##Biases start from layer 2
 		self.weights = [np.random.randn(x, y) for x, y in zip(sizes[:-1], sizes[1:])]
-		self.X_train = self.X_train/1000
+		
 
 	def CostFunc(self):
 		temp = X_train
@@ -44,6 +44,14 @@ class NeuralNetoworkclassifier(GeneralClassifiers):
 		for i in range(1,self.num_layers):
 			z[i] = np.dot(a[i-1],self.weights[i-1]) + self.biases[i-1]
 			a[i] = self.sigmoid(z[i])
+			#print("Layer %d =>"%(i)) 
+			#print(self.biases[i-1])
+			#print(a[i][0,:])			
+		#print(a[0][0,:])
+		# print(self.weights[0][:,0])
+		# print(np.dot(a[0][0,:],self.weights[0][:,0]))
+		# print(self.biases[0][0,0])
+		# print(z[1][0,0])
 		Y_train_temp = np.zeros((self.mini_batch_size,self.k))
 		Y_train_temp[range(self.mini_batch_size),self.Y_train[start:end].astype(int)] = 1
 		z_derivatives = [None]*self.num_layers
@@ -52,11 +60,13 @@ class NeuralNetoworkclassifier(GeneralClassifiers):
 			z_derivatives[-1*i] = np.dot(z_derivatives[-1*(i-1)],self.weights[-1*(i-1)].T)*(a[-1*i]*(1-a[-1*i]))
 		for i in range(self.num_layers-1):
 			self.del_biases[i] +=  self.alpha * z_derivatives[i+1].sum(axis=0)
-			self.del_weights[i] +=  self.alpha*(np.dot(a[i].T,z[i+1])) - self.reg*(self.weights[i])
+			self.del_weights[i] +=  self.alpha*(np.dot(a[i].T,z_derivatives[i+1])) + self.reg*(self.weights[i])
 
 	def GradientDescent(self):
 		start = 0
 		for i in range(self.epochs):
+			#print("Epoch %d"%(i))
+			#print(self.weights[0][0,:]*self.X_train[0,:] + self.biases[0])
 			self.del_biases = [np.zeros((1,y)) for y in self.sizes[1:]] ##Biases start from layer 2
 			self.del_weights = [np.zeros((x, y)) for x, y in zip(self.sizes[:-1], self.sizes[1:])]
 			# for i in range(start,min(m,start+mini_batch_size)):
@@ -65,11 +75,12 @@ class NeuralNetoworkclassifier(GeneralClassifiers):
 			for i in range(self.num_layers-1):
 				self.biases[i] = self.biases[i] - self.del_biases[i]
 				self.weights[i] = self.weights[i] - self.del_weights[i]
+			
 			start = (start+self.mini_batch_size)%self.m
 		return
 
 	def predict(self):
-		temp = self.X_test/1000
+		temp = self.X_test
 		for i in range(self.num_layers-1):
 			bias = self.biases[i]
 			weight = self.weights[i]
@@ -78,8 +89,6 @@ class NeuralNetoworkclassifier(GeneralClassifiers):
 		return np.argmax(temp,axis=1)
 
 	def sigmoid(self,z):
-		if (1.0/(1.0+np.exp(-z)).any()<0):
-			print(1.0/(1.0+np.exp(-z)))
 		return 1.0/(1.0+np.exp(-z))
 
 	def sigmoid_prime(self,z):
