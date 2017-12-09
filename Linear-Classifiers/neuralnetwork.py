@@ -52,8 +52,8 @@ class NeuralNetoworkclassifier(GeneralClassifiers):
 		# print(np.dot(a[0][0,:],self.weights[0][:,0]))
 		# print(self.biases[0][0,0])
 		# print(z[1][0,0])
-		Y_train_temp = np.zeros((self.mini_batch_size,self.k))
-		Y_train_temp[range(self.mini_batch_size),self.Y_train[start:end].astype(int)] = 1
+		Y_train_temp = np.zeros((end-start,self.k))
+		Y_train_temp[np.arange(end-start),self.Y_train[start:end].astype(int)] = 1
 		z_derivatives = [None]*self.num_layers
 		z_derivatives[-1] = (a[-1] - Y_train_temp)*a[-1]*(1-a[-1])/self.mini_batch_size
 		for i in range(2,self.num_layers):
@@ -62,7 +62,11 @@ class NeuralNetoworkclassifier(GeneralClassifiers):
 			self.del_biases[i] +=  self.alpha * z_derivatives[i+1].sum(axis=0)
 			self.del_weights[i] +=  self.alpha*(np.dot(a[i].T,z_derivatives[i+1])) + self.reg*(self.weights[i])
 
-	def GradientDescent(self):
+	def GradientDescent(self,reg,epochs,alpha,mini_batch_size):
+		self.reg = reg
+		self.epochs = epochs
+		self.alpha = alpha
+		self.mini_batch_size = mini_batch_size
 		start = 0
 		for i in range(self.epochs):
 			#print("Epoch %d"%(i))
