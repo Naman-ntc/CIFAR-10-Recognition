@@ -3,7 +3,7 @@ import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
 
-tf.reset_default_graph()
+#xtf.reset_default_graph()
 
 #######################################################################################################	
 
@@ -17,28 +17,36 @@ test_data = CIFAR['data']
 test_label = CIFAR['label']
 test_label = np.asarray(test_label)
 
+#####################################################################################################
+
+batch_size = 100
+epoches = 2
+
+num_training=40000
+num_validation=10000
+num_test=10000
 
 #######################################################################################################	
 
-self.data = np.reshape(self.data,(self.num_training+self.num_validation,32,32,3))
-mask = range(self.num_training, self.num_training + self.num_validation)
-self.X_val = self.data[mask]
-self.Y_val = self.label[mask]
-mask = range(self.num_training)
-self.X_train = self.data[mask]
-self.Y_train = self.label[mask]
+data = np.reshape(data,(num_training+num_validation,32,32,3))
+mask = range(num_training, num_training + num_validation)
+X_val = data[mask]
+Y_val = label[mask]
+mask = range(num_training)
+X_train = data[mask]
+Y_train = label[mask]
 
 		
-self.mean_image = np.mean(self.X_train, axis=0)
-self.X_train -= self.mean_image
-self.X_val -= self.mean_image
+mean_image = np.mean(X_train, axis=0)
+X_train -= mean_image
+X_val -= mean_image
 
-self.test_data = np.reshape(self.test_data,(self.num_test,32,32,3))
-mask = range(self.num_test)
-self.X_test = self.test_data[mask]
-self.Y_test = self.test_label[mask]
+test_data = np.reshape(test_data,(num_test,32,32,3))
+mask = range(num_test)
+X_test = test_data[mask]
+Y_test = test_label[mask]
 
-self.X_test -= self.mean_image
+X_test -= mean_image
 #######################################################################################################
 
 X = tf.placeholder(tf.float32,shape=[None,32,32,3])
@@ -62,7 +70,7 @@ D = temp6.shape
 D = D[1]*D[2]*D[3]
 temp7 = tf.reshape(temp6,[N,D])
 W3 = tf.Variable(tf.random_normal([D,10]))
-temp8 = (tf.matmul(temp7, W3)
+temp8 = tf.matmul(temp7, W3)
 B3 = tf.Variable(tf.random_normal([10]))
 temp8 = tf.bias_add(temp8,B3)
 
@@ -77,14 +85,10 @@ mean_loss = tf.reduce_mean(total_loss)
 optimizer = tf.train.AdamOptimizer(5e-4) # select optimizer and set learning rate
 train_step = optimizer.minimize(mean_loss)
 
-#####################################################################################################
-
-batch_size = 100
-epoches = 2
-sess = tf.Session()
-
 ####################################################################################################
 
-for i in range(epoches):
-	rand_index = np.random.choice(num_training, size=batch_size)
-    print(sess.run(mean_loss,feed_dict={X:X_train[rand_index],y=Y_train[rand_index]}))
+with tf.Session() as sess :
+	with tf.device('/cpu:0'):
+		for i in range(epoches):
+			rand_index = np.random.choice(num_training, size=batch_size)
+			print(sess.run(mean_loss,feed_dict={X:X_train[rand_index],y:Y_train[rand_index]}))
