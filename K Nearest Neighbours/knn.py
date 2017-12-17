@@ -33,7 +33,7 @@ class KNNclassifier(object):
 		self.Y_test = Y
 		self.k = k
 		Y_predict = self.predict()
-		accuracy = self.find_error(Y_predict)/x.shape[0]
+		accuracy = self.find_error(Y_predict)/X.shape[0]
 		return {'prediction' : Y_predict,'accuracy' : accuracy}
 
 	def update_k(self,k):

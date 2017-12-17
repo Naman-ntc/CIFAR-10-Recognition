@@ -9,4 +9,4 @@ def sigmoid_prime(x):
 
 def tanh_prime(x):
 	temp =  np.tanh(x)
-	return (1-temp)(1+temp)	
+	return (1-temp)(1+temp)		

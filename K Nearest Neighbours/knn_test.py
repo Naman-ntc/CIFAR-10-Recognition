@@ -3,6 +3,10 @@ from knn import KNNclassifier
 import matplotlib.pyplot as plt
 import numpy as np
 
+plt.rcParams['figure.figsize'] = (10.0, 8.0) # set default size of plots
+plt.rcParams['image.interpolation'] = 'nearest'
+plt.rcParams['image.cmap'] = 'gray'
+
 CIFAR = load_data.load_all()
 data = CIFAR['data']
 label = CIFAR['label']
@@ -35,6 +39,7 @@ for j in range(5):
 for k in k_possible:
   accuracies = acc_for_k[k]
   plt.scatter([k] * len(accuracies), accuracies)
+  print("For k = %d the accuracy mean is %f"%(k,np.mean(accuracies)) )
 
 # plot the trend line with error bars that correspond to standard deviation
 accuracies_mean = np.array([np.mean(v) for k,v in sorted(acc_for_k.items())])

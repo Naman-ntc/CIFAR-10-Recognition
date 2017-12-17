@@ -3,6 +3,11 @@ from svm import SVMclassifier
 import matplotlib.pyplot as plt
 import numpy as np
 
+plt.rcParams['figure.figsize'] = (10.0, 8.0) # set default size of plots
+plt.rcParams['image.interpolation'] = 'nearest'
+plt.rcParams['image.cmap'] = 'gray'
+
+
 CIFAR = load_data.load_all()
 data = CIFAR['data']
 label = CIFAR['label']
@@ -24,17 +29,18 @@ for lr in learning_rates:
 		model = SVMclassifier()
 		model.add_data(data[:48000],label[:48000],data[48000:],label[48000:],10)
 		model.InitializePars()
-		model.GradientDescent(rs,3000,lr,150)
+		model.GradientDescent(rs,300,lr,150)
 		temp = model.Validate()
-		print("For Learning Rate %f and regularization %d train accuracy %f and val accuracy %f"%(lr,rs,temp[0],temp[1]))
+		print("For Learning Rate %.8f and regularization %d train accuracy %.4f and val accuracy %.4f"%(lr,rs,temp[0],temp[1]))
 		if temp[1] > best_val:
 			best_val = temp[1]
-			print(best_val)
-			best_svm = model           
+			best_svm = model        
+			best = (rs,lr)     
 			results[(lr,rs)] = temp[0], temp[1]
 
 best_svm.PlotPars()
 losses = best_svm.give_loss()
+best_nn.GradientDescent(best[0],2700,best[1],150)
 plt.plot(losses)
 plt.ylabel('loses over time')
 plt.savefig('Losses_over_time_SVM.png')
