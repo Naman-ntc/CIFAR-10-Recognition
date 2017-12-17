@@ -28,7 +28,7 @@ num_validation=10000
 num_test=10000
 
 
-logs_path = '/home/naman/Repositories/CIFAR-10-Recognition/Tensorflow/examples/1'
+logs_path = '/home/naman/Repositories/CIFAR-10-Recognition/Tensorflow/examples/3'
 
 #######################################################################################################	
 
@@ -108,4 +108,6 @@ with tf.Session() as sess :
 			rand_index = np.random.choice(num_training, size=batch_size)
 			loss,_,summary = sess.run([mean_loss,train_step,merged_summary_op],feed_dict={X:X_train[rand_index],y:Y_train[rand_index]})
 			summary_writer.add_summary(summary, i)
-			print(loss)
+			
+		val_acc = sess.run(accuracy,feed_dict={X:X_val,y:Y_val})
+		print(val_acc)
