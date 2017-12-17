@@ -1,3 +1,4 @@
+
 import load_data
 import tensorflow as tf
 import numpy as np
@@ -74,9 +75,9 @@ W3 = tf.Variable(tf.random_normal(tf.TensorShape([D,100])))
 temp8 = tf.matmul(temp7, W3)
 B3 = tf.Variable(tf.random_normal([100]))
 W4 = tf.Variable(tf.random_normal(tf.TensorShape([100,10])))
-temp9 = tf.matmul(temp8, W3)
+temp9 = tf.matmul(temp8, W4)
 B4 = tf.Variable(tf.random_normal([10]))
-temp9 = tf.add(temp9,B3)
+temp9 = tf.add(temp9,B4)
 
 ######################################################################################################
 

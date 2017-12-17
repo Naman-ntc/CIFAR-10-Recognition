@@ -1,3 +1,4 @@
+
 import load_data
 import tensorflow as tf
 import numpy as np
@@ -54,7 +55,7 @@ X = tf.placeholder(tf.float32,shape=[batch_size,32,32,3])
 y = tf.placeholder(tf.int32,shape=[batch_size])
 N = X.shape[0]
 W1 = tf.Variable(tf.random_normal([7,7,3,62]))
-W2 = tf.Variable(tf.random_normal([3,3,32,25]))
+W2 = tf.Variable(tf.random_normal([3,3,62,25]))
 temp1 = tf.nn.conv2d(X,W1,strides=[1, 1, 1, 1],padding='VALID')
 D = temp1.shape
 B1 = tf.Variable(tf.random_normal(D[1:]))
@@ -74,9 +75,9 @@ W3 = tf.Variable(tf.random_normal(tf.TensorShape([D,300])))
 temp8 = tf.matmul(temp7, W3)
 B3 = tf.Variable(tf.random_normal([300]))
 W4 = tf.Variable(tf.random_normal(tf.TensorShape([300,10])))
-temp9 = tf.matmul(temp8, W3)
+temp9 = tf.matmul(temp8, W4)
 B4 = tf.Variable(tf.random_normal([10]))
-temp9 = tf.add(temp9,B3)
+temp9 = tf.add(temp9,B4)
 
 ######################################################################################################
 
