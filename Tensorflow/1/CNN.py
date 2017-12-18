@@ -20,7 +20,7 @@ test_label = np.asarray(test_label)
 
 #####################################################################################################
 
-batch_size = 900
+batch_size = 400
 epoches = 150
 
 num_training=40000
@@ -121,5 +121,5 @@ with tf.Session() as sess :
 			rand_index = np.random.choice(num_training, size=batch_size)
 			loss,_,summary = sess.run([mean_loss,train_step,merged_summary_op],feed_dict={X:X_train[rand_index],y:Y_train[rand_index],train:1})
 			summary_writer.add_summary(summary, i)
-			val_acc = sess.run(accuracy,feed_dict={X:X_val,y:Y_val,train:0})
-			print(val_acc)
+		val_acc = sess.run(accuracy,feed_dict={X:X_val,y:Y_val,train:0})
+		print(val_acc)
