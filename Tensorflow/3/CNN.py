@@ -108,15 +108,13 @@ merged_summary_op = tf.summary.merge_all()
 ####################################################################################################
 
 with tf.Session() as sess :
-	with tf.device('/cpu:0'):
+	summary_writer = tf.summary.FileWriter(logs_path, graph=tf.get_default_graph())
+	learning_rates = [1e-2,1e-3,1e-4,1e-5,1e-6]
+	for i in learning_rates:
 		tf.global_variables_initializer().run()	
-		summary_writer = tf.summary.FileWriter(logs_path, graph=tf.get_default_graph())
-
-		learning_rates = [1e-2,1e-3,1e-4,1e-5,1e-6]
-		for i in learning_rates:
-			for i in range(epoches):
-				rand_index = np.random.choice(num_training, size=batch_size)
-				loss,_,summary = sess.run([mean_loss,train_step,merged_summary_op],feed_dict={X:X_train[rand_index],y:Y_train[rand_index],train:1})
-				summary_writer.add_summary(summary, i)
+		for i in range(epoches):
+			rand_index = np.random.choice(num_training, size=batch_size)
+			loss,_,summary = sess.run([mean_loss,train_step,merged_summary_op],feed_dict={X:X_train[rand_index],y:Y_train[rand_index],train:1})
+			summary_writer.add_summary(summary, i)
 			val_acc = sess.run(accuracy,feed_dict={X:X_val,y:Y_val,train:0})
 			print(val_acc)
