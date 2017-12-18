@@ -21,7 +21,7 @@ test_label = np.asarray(test_label)
 #####################################################################################################
 
 batch_size = 400
-epoches = 150
+epoches = 1500
 
 num_training=40000
 num_validation=10000
@@ -97,7 +97,7 @@ mean_loss = tf.divide(total_loss,tf.cast(N,tf.float32))
 accuracy = tf.equal(tf.argmax(y_out, 1), tf.argmax(tf.one_hot(y,10), 1))
 accuracy = tf.reduce_sum(tf.cast(accuracy,tf.float32))
 
-optimizer = tf.train.AdamOptimizer(1e-2,0.85) # select optimizer and set learning rate
+optimizer = tf.train.AdamOptimizer(1e-2,0.88) # select optimizer and set learning rate
 train_step = optimizer.minimize(mean_loss)
 
 
@@ -109,7 +109,7 @@ merged_summary_op = tf.summary.merge_all()
 
 with tf.Session() as sess :
 	summary_writer = tf.summary.FileWriter(logs_path, graph=tf.get_default_graph())
-	learning_rates = [1e-2,1e-3,1e-4,1e-5,1e-6]
+	learning_rates = [1e-5]#[1e-2,1e-3,1e-4,1e-5,1e-6]
 	for i in learning_rates:
 		tf.global_variables_initializer().run()	
 		for i in range(epoches):
