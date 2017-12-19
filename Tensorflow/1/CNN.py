@@ -97,7 +97,7 @@ merged_summary_op = tf.summary.merge_all()
 ####################################################################################################
 
 batch_size=64
-epoches=4
+epoches=6
 
 
 extra_update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
@@ -106,7 +106,7 @@ with tf.control_dependencies(extra_update_ops):
 
 with tf.Session() as sess :
 	
-	learning_rates = [1e-2,1e-3,1e-4,1e-5,1e-6]
+	learning_rates = [1e-3,1e-4,1e-5,1e-6]
 	for i in learning_rates:
 		tf.global_variables_initializer().run()	
 		for j in range(epoches):
