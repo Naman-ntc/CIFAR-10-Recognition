@@ -96,7 +96,7 @@ merged_summary_op = tf.summary.merge_all()
 
 ####################################################################################################
 
-batch_size=800
+batch_size=4000
 epoches=9
 
 
@@ -115,7 +115,7 @@ with tf.Session() as sess :
 			for k in range(61):
 				rand_index = np.random.choice(num_training, size=batch_size)
 				_,summary = sess.run([updates,merged_summary_op],feed_dict={X:X_train[rand_index],y:Y_train[rand_index],is_training:1,lr:i})
-				summary_writer.add_summary(summary, i)
+				summary_writer.add_summary(summary, k)
 				if (k%10==0):
 					curr_loss,curr_acc = sess.run([mean_loss,accuracy],feed_dict={X:X_train[rand_index],y:Y_train[rand_index],is_training:1,lr:i})
 					print("Iteration %d : mean_loss = %.2f and accuracy = %.3f"%(k,curr_loss,curr_acc))
