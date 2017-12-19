@@ -1,7 +1,7 @@
 import pickle
 import numpy
 
-main = "cifar-10-python/cifar-10-batches-py/data_batch_"
+main = "../cifar-10-python/cifar-10-batches-py/data_batch_"
 
 def unpickle(file):
     with open(file, 'rb') as fo:

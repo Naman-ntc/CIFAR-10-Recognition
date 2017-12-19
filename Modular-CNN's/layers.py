@@ -30,7 +30,7 @@ def affine-backward(dout,cache):
 
     return (dx,dw,db)
 
-def activation_forward(x,activation,*args):
+def activation_forward(x,activation='ReLU'):
 	if activation=='ReLU':
 		out = max(0,x)
 	elif activation=='Leaky-ReLU':
@@ -44,7 +44,7 @@ def activation_forward(x,activation,*args):
 	cache = x	
 	return (out,cache)	
 		
-def activation_backward(dout,cache,activation):
+def activation_backward(dout,cache,activation='ReLU'):
 	x = cache[0]
 	if activation=='ReLU':
 		dx = dout
@@ -57,8 +57,10 @@ def activation_backward(dout,cache,activation):
 		dx = dout*sigmoid_prime(x)
 	elif activation=='tanh':
 		dx = 0.5*dout*tanh_prime(x)
+	return dx	
 
-def 		
+def dropout_forward(x):
+
 
 
 

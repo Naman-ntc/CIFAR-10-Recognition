@@ -20,15 +20,12 @@ test_label = np.asarray(test_label)
 
 #####################################################################################################
 
-batch_size = 400
-epoches = 150
-
 num_training=40000
 num_validation=10000
 num_test=10000
 
 
-logs_path = '/home/naman/Repositories/CIFAR-10-Recognition/Tensorflow/examples/5'
+logs_path = '/home/naman/Repositories/CIFAR-10-Recognition/Tensorflow/examples/1'
 
 #######################################################################################################	
 
@@ -50,56 +47,48 @@ X_val -= mean_image
 X_test -= mean_image
 #######################################################################################################
 
-X = tf.placeholder(tf.float32,shape=[None,32,32,3])
-y = tf.placeholder(tf.int32,shape=[None])
-train = tf.placeholder(tf.bool)
-N = tf.shape(X)[0]
-def test_output():
-	W1 = tf.Variable(tf.random_normal([7,7,3,42]))
-	W2 = tf.Variable(tf.random_normal([3,3,42,22]))
-	temp1 = tf.nn.conv2d(X,W1,strides=[1, 1, 1, 1],padding='VALID')
-	D = temp1.shape
-	B1 = tf.Variable(tf.random_normal(D[1:]))
-	temp1 = tf.add(temp1,B1)
-	temp2 = tf.nn.leaky_relu(temp1,alpha=0.3)
-	temp2 = tf.contrib.layers.batch_norm(temp2)
-	temp3 = tf.nn.dropout(temp2,keep_prob=0.4)
-	temp4 = tf.nn.conv2d(temp3,W2,strides=[1, 2, 2, 1],padding='VALID')
-	D = temp4.shape
-	B2 = tf.Variable(tf.random_normal(D[1:]))
-	temp4 = tf.add(temp4,B2)
-	temp4 = tf.nn.dropout(temp4,keep_prob=0.6)
-	temp5 = tf.nn.leaky_relu(temp4,alpha=0.2)
-	temp5 = tf.contrib.layers.batch_norm(temp5)
-	temp6 = tf.nn.max_pool(temp5,[1,2,2,1],strides=[1,1,1,1],padding='VALID')
-	D = temp6.shape
+##### convolution ==> batch_norm ===> activation ===> dropout
+def test_output(X,y,is_training):
+	avg_pooled = tf.layers.average_pooling2d(X,[3,3],[1,1])
+	conved = tf.layers.conv2d(avg_pooled,64,[7,7])
+	batch_normed = tf.layers.batch_normalization(conved,training=is_training)
+	activated = tf.nn.leaky_relu(batch_normed,alpha=0.2)
+	dropped = tf.layers.dropout(activated,training=is_training)
+	conved = tf.layers.conv2d(dropped,32,[5,5],[2,2])
+	batch_normed = tf.layers.batch_normalization(conved,training=is_training)
+	activated = tf.nn.leaky_relu(batch_normed,alpha=0.15)
+	max_pooled = tf.layers.max_pooling2d(activated,[2,2],[1,1])
+	D = max_pooled.shape
 	D = D[1]*D[2]*D[3]
-	temp7 = tf.reshape(temp6,([N,D]))
-	W3 = tf.Variable(tf.random_normal(tf.TensorShape([D,150])))
-	temp8 = tf.matmul(temp7, W3)
-	B3 = tf.Variable(tf.random_normal([150]))
-	temp8 = tf.add(temp8,B3)
-	temp4 = tf.nn.dropout(temp4,keep_prob=0.7)
-	temp4 = tf.contrib.layers.batch_norm(temp4)
-	W4 = tf.Variable(tf.random_normal(tf.TensorShape([150,10])))
-	temp9 = tf.matmul(temp8, W4)
-	B4 = tf.Variable(tf.random_normal([10]))
-	temp9 = tf.add(temp9,B4)
-	return temp9
+	flattened = tf.reshape(max_pooled,[-1,D])
+	densed = tf.layers.dense(flattened,1024)
+	activated = tf.nn.selu(densed)
+	dropped = tf.layers.dropout(activated,0.4,training=is_training)
+	densed = tf.layers.dense(dropped,10)
+	activated = tf.nn.relu(densed)
+	y_out = activated
+	#print(y_out.shape)
+	return y_out
+
 ######################################################################################################
 
-y_out = test_output()
+X = tf.placeholder(tf.float32,shape=[None,32,32,3])
+y = tf.placeholder(tf.int32,shape=[None])
+is_training = tf.placeholder(tf.bool)
+lr = tf.placeholder(tf.float32)
+N = tf.shape(X)[0]
 
-total_loss = tf.losses.hinge_loss(tf.one_hot(y,10),logits=y_out)
-mean_loss = tf.divide(total_loss,tf.cast(N,tf.float32))
+y_out = test_output(X,y,is_training)
 
+mean_loss = tf.losses.softmax_cross_entropy(logits=y_out, onehot_labels=tf.one_hot(y,10))
+correct_prediction = tf.equal(tf.cast(tf.argmax(y_out,1),tf.int32), y)
+accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 # define our optimizer
-accuracy = tf.equal(tf.argmax(y_out, 1), tf.argmax(tf.one_hot(y,10), 1))
-accuracy = tf.reduce_sum(tf.cast(accuracy,tf.float32))
+optimizer = tf.train.AdamOptimizer(lr)
 
-optimizer = tf.train.AdamOptimizer(1e-2,0.85) # select optimizer and set learning rate
-train_step = optimizer.minimize(mean_loss)
-
+extra_update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
+with tf.control_dependencies(extra_update_ops):
+    updates = optimizer.minimize(mean_loss)
 
 tf.summary.scalar("mean_loss", mean_loss)
 tf.summary.scalar("accuracy", accuracy)
@@ -107,14 +96,28 @@ merged_summary_op = tf.summary.merge_all()
 
 ####################################################################################################
 
+batch_size=800
+epoches=9
+
+
+extra_update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
+with tf.control_dependencies(extra_update_ops):
+    train_step = optimizer.minimize(mean_loss)
+
 with tf.Session() as sess :
-	summary_writer = tf.summary.FileWriter(logs_path, graph=tf.get_default_graph())
-	learning_rates = []#[1e-2,1e-3,1e-4,1e-5,1e-6]
+	
+	learning_rates = [1e-3]#[1e-2,1e-3,1e-4,1e-5,1e-6]
 	for i in learning_rates:
 		tf.global_variables_initializer().run()	
-		for i in range(epoches):
-			rand_index = np.random.choice(num_training, size=batch_size)
-			loss,_,summary = sess.run([mean_loss,train_step,merged_summary_op],feed_dict={X:X_train[rand_index],y:Y_train[rand_index],train:1})
-			summary_writer.add_summary(summary, i)
-		val_acc = sess.run(accuracy,feed_dict={X:X_val,y:Y_val,train:0})
+		for j in range(epoches):
+			summary_writer = tf.summary.FileWriter(logs_path+str(j), graph=tf.get_default_graph())
+			print("Epoch No. : %d"%(j))
+			for k in range(61):
+				rand_index = np.random.choice(num_training, size=batch_size)
+				_,summary = sess.run([updates,merged_summary_op],feed_dict={X:X_train[rand_index],y:Y_train[rand_index],is_training:1,lr:i})
+				summary_writer.add_summary(summary, i)
+				if (k%10==0):
+					curr_loss,curr_acc = sess.run([mean_loss,accuracy],feed_dict={X:X_train[rand_index],y:Y_train[rand_index],is_training:1,lr:i})
+					print("Iteration %d : mean_loss = %.2f and accuracy = %.3f"%(k,curr_loss,curr_acc))
+		val_acc = sess.run(accuracy,feed_dict={X:X_val,y:Y_val,is_training:0,lr:0})
 		print(val_acc)
