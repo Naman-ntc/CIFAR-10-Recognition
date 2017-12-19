@@ -59,11 +59,35 @@ def activation_backward(dout,cache,activation='ReLU'):
 		dx = 0.5*dout*tanh_prime(x)
 	return dx	
 
-def dropout_forward(x):
+def dropout_forward(x,keep_prob=0.5):
+	mask = np.random.random_sample(x.shape) < keep_prob
+	out = x*mask
+	cache = (keep_prob,mask)
+	return (out,cache)
+
+def dropout_backward(dout,cache):
+	mask = cache
+	dx = dout*mask
+	return dx
+
+def conv_forward(x,w,b,strides=[1,1],padding='VALID'):
+	# x: Input data of shape (N, C, H, W)
+	# w: Filter weights of shape (F, C, HH, WW)
+	# b: Biases, of shape (F,)
+	# strides: The number of pixels between adjacent receptive fields horizontally and vertically
+	# padding: The number of pixels that will be used to zero-pad the input, defaults to valid
+
+	# H' = 1 + (H + 2 * pad[0] - HH) / stride
+    # W' = 1 + (W + 2 * pad[1] - WW) / stride
 
 
-
-
-
-
-
+    if (padding=='VALID')
+    	_,_,H,W = x.shape
+    	_,_,HH,WW = w.shape
+    	temp1 = 0
+    	while((H-HH+2*temp1)%stride[0] != 0): 
+    		temp1++
+    	temp2 = 0
+    	while((W-WW+2*temp2)%stride[1] != 0): 
+    		temp2++
+    	padding=[temp1,temp2]		

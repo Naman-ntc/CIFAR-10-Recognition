@@ -84,7 +84,7 @@ mean_loss = tf.losses.softmax_cross_entropy(logits=y_out, onehot_labels=tf.one_h
 correct_prediction = tf.equal(tf.cast(tf.argmax(y_out,1),tf.int32), y)
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 # define our optimizer
-optimizer = tf.train.AdamOptimizer(lr)
+optimizer = tf.train.GradientDescentOptimizer(lr)
 
 extra_update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
 with tf.control_dependencies(extra_update_ops):

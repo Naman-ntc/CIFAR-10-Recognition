@@ -97,7 +97,7 @@ merged_summary_op = tf.summary.merge_all()
 ####################################################################################################
 
 batch_size=64
-epoches=5
+epoches=4
 
 
 extra_update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
