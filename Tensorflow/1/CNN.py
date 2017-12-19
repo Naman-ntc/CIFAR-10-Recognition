@@ -90,7 +90,7 @@ extra_update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
 with tf.control_dependencies(extra_update_ops):
     updates = optimizer.minimize(mean_loss)
 
-tf.summary.scalar("Mini Batch Loss", N*mean_loss)
+tf.summary.scalar("Mini Batch Loss", tf.multiply(mean_loss,tf.cast(N,tf.float32)))
 tf.summary.scalar("accuracy", accuracy)
 merged_summary_op = tf.summary.merge_all()
 
