@@ -90,7 +90,7 @@ extra_update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
 with tf.control_dependencies(extra_update_ops):
     updates = optimizer.minimize(mean_loss)
 
-tf.summary.scalar("mean_loss", mean_loss)
+tf.summary.scalar("Mini Batch Loss", N*mean_loss)
 tf.summary.scalar("accuracy", accuracy)
 merged_summary_op = tf.summary.merge_all()
 
@@ -118,6 +118,6 @@ with tf.Session() as sess :
 				summary_writer.add_summary(summary, k)
 				if (k%10==0):
 					curr_loss,curr_acc = sess.run([mean_loss,accuracy],feed_dict={X:X_train[rand_index],y:Y_train[rand_index],is_training:1,lr:i})
-					print("Iteration %d : mean_loss = %.2f and accuracy = %.3f"%(k,curr_loss,curr_acc))
+					print("Iteration %d : Mini Batch Loss = %.2f and accuracy = %.3f"%(k,batch_size*curr_loss,curr_acc))
 		val_acc = sess.run(accuracy,feed_dict={X:X_val,y:Y_val,is_training:0,lr:0})
 		print(val_acc)
