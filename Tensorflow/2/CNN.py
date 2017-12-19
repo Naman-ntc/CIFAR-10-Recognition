@@ -84,7 +84,7 @@ mean_loss = tf.losses.softmax_cross_entropy(logits=y_out, onehot_labels=tf.one_h
 correct_prediction = tf.equal(tf.cast(tf.argmax(y_out,1),tf.int32), y)
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 # define our optimizer
-optimizer = tf.train.AdamOptimizer(lr)
+optimizer = tf.train.GradientDescentOptimizer(lr)
 
 extra_update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
 with tf.control_dependencies(extra_update_ops):
@@ -96,7 +96,7 @@ merged_summary_op = tf.summary.merge_all()
 
 ####################################################################################################
 
-batch_size=4000
+batch_size=64
 epoches=9
 
 
@@ -106,17 +106,17 @@ with tf.control_dependencies(extra_update_ops):
 
 with tf.Session() as sess :
 	
-	learning_rates = [1e-3]#[1e-2,1e-3,1e-4,1e-5,1e-6]
+	learning_rates = [1e-2,1e-3,1e-4,1e-5,1e-6]
 	for i in learning_rates:
 		tf.global_variables_initializer().run()	
 		for j in range(epoches):
 			summary_writer = tf.summary.FileWriter(logs_path+str(j), graph=tf.get_default_graph())
 			print("Epoch No. : %d"%(j))
-			for k in range(61):
+			for k in range(801):
 				rand_index = np.random.choice(num_training, size=batch_size)
 				_,summary = sess.run([updates,merged_summary_op],feed_dict={X:X_train[rand_index],y:Y_train[rand_index],is_training:1,lr:i})
-				summary_writer.add_summary(summary, k)
-				if (k%10==0):
+				#summary_writer.add_summary(summary, k)
+				if (k%100==0):
 					curr_loss,curr_acc = sess.run([mean_loss,accuracy],feed_dict={X:X_train[rand_index],y:Y_train[rand_index],is_training:1,lr:i})
 					print("Iteration %d : Mini Batch Loss = %.2f and accuracy = %.3f"%(k,batch_size*curr_loss,curr_acc))
 		val_acc = sess.run(accuracy,feed_dict={X:X_val,y:Y_val,is_training:0,lr:0})
