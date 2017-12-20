@@ -25,7 +25,7 @@ num_validation=10000
 num_test=10000
 
 
-logs_path = '/home/naman/Repositories/CIFAR-10-Recognition/Tensorflow/examples/2'
+logs_path = '/home/naman/Repositories/CIFAR-10-Recognition/Tensorflow/examples/3see'
 
 #######################################################################################################	
 
@@ -49,21 +49,21 @@ X_test -= mean_image
 
 ##### convolution ==> batch_norm ===> activation ===> dropout
 def test_output(X,y,is_training):
-	avg_pooled = tf.layers.average_pooling2d(X,[4,4],[1,1])
-	conved = tf.layers.conv2d(avg_pooled,32,[7,7])
+	avg_pooled = tf.layers.average_pooling2d(X,[3,3],[1,1])
+	conved = tf.layers.conv2d(avg_pooled,64,[7,7])
 	batch_normed = tf.layers.batch_normalization(conved,training=is_training)
 	activated = tf.nn.leaky_relu(batch_normed,alpha=0.2)
 	dropped = tf.layers.dropout(activated,training=is_training)
-	conved = tf.layers.conv2d(dropped,16,[3,3],[2,2])
+	conved = tf.layers.conv2d(dropped,32,[3,3],[2,2])
 	batch_normed = tf.layers.batch_normalization(conved,training=is_training)
-	activated = tf.nn.leaky_relu(batch_normed,alpha=0.05)
-	max_pooled = tf.layers.max_pooling2d(activated,[3,3],[1,1])
+	activated = tf.nn.leaky_relu(batch_normed,alpha=0.15)
+	max_pooled = tf.layers.max_pooling2d(activated,[2,2],[1,1])
 	D = max_pooled.shape
 	D = D[1]*D[2]*D[3]
 	flattened = tf.reshape(max_pooled,[-1,D])
-	densed = tf.layers.dense(flattened,256)
+	densed = tf.layers.dense(flattened,1024)
 	activated = tf.nn.selu(densed)
-	dropped = tf.layers.dropout(activated,0.3,training=is_training)
+	dropped = tf.layers.dropout(activated,0.4,training=is_training)
 	densed = tf.layers.dense(dropped,10)
 	activated = tf.nn.relu(densed)
 	y_out = activated
@@ -96,8 +96,8 @@ merged_summary_op = tf.summary.merge_all()
 
 ####################################################################################################
 
-batch_size=64
-epoches=5
+batch_size=32
+epoches=15
 
 
 extra_update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
@@ -106,17 +106,17 @@ with tf.control_dependencies(extra_update_ops):
 
 with tf.Session() as sess :
 	
-	learning_rates = [1e-1] #[1e-2,1e-3,1e-4,1e-5,1e-6]
+	learning_rates = [1e-2]
 	for i in learning_rates:
 		tf.global_variables_initializer().run()	
 		for j in range(epoches):
 			summary_writer = tf.summary.FileWriter(logs_path+str(j), graph=tf.get_default_graph())
 			print("Epoch No. : %d"%(j))
-			for k in range(801):
+			for k in range(3201):
 				rand_index = np.random.choice(num_training, size=batch_size)
 				_,summary = sess.run([updates,merged_summary_op],feed_dict={X:X_train[rand_index],y:Y_train[rand_index],is_training:1,lr:i})
-				#summary_writer.add_summary(summary, k)
-				if (k%100==0):
+				summary_writer.add_summary(summary, k)
+				if (k%400==0):
 					curr_loss,curr_acc = sess.run([mean_loss,accuracy],feed_dict={X:X_train[rand_index],y:Y_train[rand_index],is_training:1,lr:i})
 					print("Iteration %d : Mini Batch Loss = %.2f and accuracy = %.3f"%(k,batch_size*curr_loss,curr_acc))
 		val_acc = sess.run(accuracy,feed_dict={X:X_val,y:Y_val,is_training:0,lr:0})
