@@ -6,7 +6,7 @@ def softmax_cross_entropy_loss(x,y_true):
 	# y_true: [i] stores class number for ith input numbered {0,1,2,......,k-1}
 	N,K = x.shape
 	y_true_onehot = np.zeros((N,K))
-	y_true_onehot[np.arange(N),y_true] = 1
+	y_true_onehot[np.arange(N),y_true.astype(int)] = 1
 
 	x = x - np.max(x,axis=1,keepdims=True)
 	

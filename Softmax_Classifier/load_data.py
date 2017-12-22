@@ -1,7 +1,7 @@
 import pickle
 import numpy
 
-main = "cifar-10-python/cifar-10-batches-py/data_batch_"
+main = "../cifar-10-python/cifar-10-batches-py/data_batch_"
 
 def unpickle(file):
     with open(file, 'rb') as fo:
@@ -15,7 +15,7 @@ def load_all():
 		temp = unpickle(main+str(i+1))
 		data[10000*i:10000*(i+1),:] = temp[b'data']
 		label[10000*i:10000*(i+1)] = temp[b'labels']
-	data = numpy.reshape(data,(50000,3,32,32)).transpose(0,2,3,1)	
+	#data = numpy.reshape(data,(50000,3,32,32)).transpose(0,2,3,1)	
 	return (data,label)
 
 def load_test():
@@ -24,7 +24,7 @@ def load_test():
 	temp = unpickle(main[:-11]+"test_batch")
 	data[:,:] = temp[b'data']
 	label[:] = temp[b'labels']
-	data = numpy.reshape(data,(10000,3,32,32)).transpose(0,2,3,1)
+	#data = numpy.reshape(data,(10000,3,32,32)).transpose(0,2,3,1)
 	return (data,label)
 
 

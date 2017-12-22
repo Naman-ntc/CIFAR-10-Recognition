@@ -6,7 +6,7 @@ class GeneralClassifiers(object):
 	def __init__(self):
 		pass
 
-	def add_data(self,X,Y,valX,valY,num_classes): 
+	def add_data(self,X=None,Y=None,valX=None,valY=None,num_classes=None): 
 		#These X and Y are the training sets
 		#Dimensions of X are as m x n
 		self.X_train = X
@@ -28,21 +28,21 @@ class GeneralClassifiers(object):
 	def StandardizeTrain(self):
 		self.train_mean = np.reshape(np.mean(self.X_train,axis=0),(1,self.n))
 		self.X_train = self.X_train - self.train_mean
-		self.train_std = np.std(self.X_train,axis=0)
-		self.X_train = self.X_train/self.train_std
-		#self.X_val = self.X_val - self.train_mean
+		#self.train_std = np.std(self.X_train,axis=0)
+		#self.X_train = self.X_train/self.train_std
+		self.X_val = self.X_val - self.train_mean
 		#self.X_val = self.X_val/self.train_std
 		return
 
 	def StandardizeTest(self):
 		self.X_test = self.X_test - self.train_mean
-		self.X_test = self.X_test/self.train_std
+		#self.X_test = self.X_test/self.train_std
 		return
 
-	def CostFunc():
+	def CostFunc(self):
 		pass
 
-	def Gradient():
+	def Gradient(self,start,end):
 		pass
 
 	def GradientDescent(start,end):
@@ -52,7 +52,7 @@ class GeneralClassifiers(object):
 		#These X and Y are the test sets
 		#Returns a prediction of what corresponding X to each element of X the label should be
 		self.X_test = X
-		self.StandardizeTest()
+		#self.StandardizeTest()
 		return self.predict()
 
 	def predict():
