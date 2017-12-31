@@ -54,7 +54,7 @@ class SVMclassifier(GeneralClassifiers):
 			#print(temp[1])
 			self.pars += -1*self.alpha*temp[0]
 			start = (start+self.mini_batch_size)%self.m
-			self.alpha*=0.9
+			self.alpha*=0.95
 		return
 
 	def predict(self):
