@@ -13,11 +13,11 @@ The dataset is divided into five training batches and one test batch, each with 
 |			Algorithm 								|    Results  (Accuracy)		|
 |---------------------------------------------------|-------------------------------|
 | [Nearest Neighbours](K_Nearest_Neighbours) 		|	 28.15%						|
-| [Support Vector Machines](Linear_SVM)				|	 37.7%						|
-| [Softmax Regression](Softmax_Classifier)			|	 40.3%						|
+| [Support Vector Machines](Linear_SVM)				|	 36.7%						|
+| [Softmax Regression](Softmax_Classifier)			|	 37.4%						|
 | [FeedForward Neural Networks](FeedForward_Neural_Network_classifier)|  			|
 | [Convolutional Neural Networks](Modular-CNN's)    |    							|
 | [Neural Networks on Tensorflow](Tensorflow)		|	68.3%						|	
 
 ### References
-Most of the work was inspired from CS231n assignments and was authored by me
+Most of the work was inspired from CS231n assignments and was completely authored by me

@@ -31,3 +31,6 @@ It performs gradient descent using rate decay over the svm loss. Decay rate can 
 Best Validation Accuracy 0.3640 for lr :0.00000500 rs :1000.0000 bs :600.000000 
 
 And Testing Accuracy is 0.3674
+
+### Loss Curves
+![Loss Curve](Losses_over_time_SVM.png)

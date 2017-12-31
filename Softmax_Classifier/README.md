@@ -29,3 +29,6 @@ It performs gradient descent using rate decay over the softmax loss. Decay rate 
 Best Validation Accuracy 0.3345 for lr :0.00004000 rs :100000.0000 bs :600.000000 
 
 And Testing Accuracy is 0.3741
+
+### Loss Curves
+![Loss Curve](Losses_over_time_Softmax.png)
