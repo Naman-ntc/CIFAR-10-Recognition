@@ -1,3 +1,6 @@
+import matplotlib
+# Force matplotlib to not use any Xwindows backend.
+matplotlib.use('Agg')
 import load_data as loader
 from svm import SVMclassifier
 import matplotlib.pyplot as plt

@@ -1,23 +1,28 @@
 # Softmax Classifier
+Softmax regression (or multinomial logistic regression) is a generalization of logistic regression to the case where we want to handle multiple classes.
+
+### Usage
+
+```python
+model = Softmaxclassifier()
+model.add_data(data,label,val_data,val_label)  
+# data is mxn dimensional np array while label is 1 dimensional np array
+model.InitializePars()
+model.set_lr(lr)
+model.set_reg(rs)
+model.set_bs(bs)
+# Use model.give_prediction(test_data,k) to get prediction for some k
+# Use model.give_prediction_and_accuracy(test_data,labels,k) to get dictionary containing both
+# prediction_labels and accuracy 
+```
 
 
-Here are test results on Softmax Classifier
+### Implementation
+It is an inherited class of Generalclassifier. The function InitializePars helps in changing the standard deviations and mean of softmax parameters.
+It performs gradient descent using rate decay over the softmax loss. Decay rate can be manually set up.
 
-For Learning Rate 0.00025000 and regularization 0.000000 train accuracy 0.3241 and val accuracy 0.3315
-For Learning Rate 0.00070000 and regularization 0.000000 train accuracy 0.3598 and val accuracy 0.3555
-For Learning Rate 0.00200000 and regularization 0.000000 train accuracy 0.3849 and val accuracy 0.3790
-For Learning Rate 0.00900000 and regularization 0.000000 train accuracy 0.3960 and val accuracy 0.3830
-For Learning Rate 0.00025000 and regularization 0.000010 train accuracy 0.3250 and val accuracy 0.3275
-For Learning Rate 0.00070000 and regularization 0.000010 train accuracy 0.3606 and val accuracy 0.3555
-For Learning Rate 0.00200000 and regularization 0.000010 train accuracy 0.3849 and val accuracy 0.3760
-For Learning Rate 0.00900000 and regularization 0.000010 train accuracy 0.3955 and val accuracy 0.3835
-For Learning Rate 0.00025000 and regularization 0.000002 train accuracy 0.3250 and val accuracy 0.3325
-For Learning Rate 0.00070000 and regularization 0.000002 train accuracy 0.3607 and val accuracy 0.3590
-For Learning Rate 0.00200000 and regularization 0.000002 train accuracy 0.3850 and val accuracy 0.3815
-For Learning Rate 0.00900000 and regularization 0.000002 train accuracy 0.3952 and val accuracy 0.3835
-For Learning Rate 0.00025000 and regularization 0.000800 train accuracy 0.3204 and val accuracy 0.3305
-For Learning Rate 0.00070000 and regularization 0.000800 train accuracy 0.3574 and val accuracy 0.3535
-For Learning Rate 0.00200000 and regularization 0.000800 train accuracy 0.3827 and val accuracy 0.3795
-For Learning Rate 0.00900000 and regularization 0.000800 train accuracy 0.3925 and val accuracy 0.3785
+### References
 
+[Brilliant Tutorial](http://ufldl.stanford.edu/tutorial/supervised/SoftmaxRegression/)
+[Another Nice Tutorial](https://www.pyimagesearch.com/2016/09/12/softmax-classifiers-explained/)
 And finally the test accuracy 0.403

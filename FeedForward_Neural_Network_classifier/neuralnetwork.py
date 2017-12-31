@@ -27,31 +27,10 @@ class NeuralNetoworkclassifier(GeneralClassifiers):
 	def Gradient(self,start,end):
 		a = [None]*self.num_layers
 		z = [None]*self.num_layers ##actually to be only num_layers - 1 but for sake of indexing
-		# a[0] = X
-		# for i in range(1,self.num_layers):
-		# 	z[i] = np.dot(a[i-1],self.weights[i-1]) + self.biases[i-1]
-		# 	a[i] = self.sigmoid(z[i])
-		# Y = np.zeros(self.k)
-		# Y[y] = 1
-		# z_derivatives = [None]*num_layers
-		# z_derivatives[-1] = (a[-1] - Y_train_temp)*a[-1]*(1-a[-1])
-		# for i in range(2,num_layers-1):
-		# 	z_derivatives[-1*i] = z_derivatives[-1*(i-i)]*np.dot((a[-1*i]*(1-a[-1*i])),W[-1*i])
-		# for i in range(num_layers-1):
-		# 	self.del_biases[i] +=  self.alpha*z_derivatives[i+1]/m
-		# 	self.del_weights[i] +=  self.alpha*(np.dot(a[i].T,z[i+1]))/m - reg*((np.linalg.norm(weights[i]))**2)
 		a[0] = self.X_train[start:end]
 		for i in range(1,self.num_layers):
 			z[i] = np.dot(a[i-1],self.weights[i-1]) + self.biases[i-1]
 			a[i] = self.sigmoid(z[i])
-			#print("Layer %d =>"%(i)) 
-			#print(self.biases[i-1])
-			#print(a[i][0,:])			
-		#print(a[0][0,:])
-		# print(self.weights[0][:,0])
-		# print(np.dot(a[0][0,:],self.weights[0][:,0]))
-		# print(self.biases[0][0,0])
-		# print(z[1][0,0])
 		Y_train_temp = np.zeros((end-start,self.k))
 		Y_train_temp[np.arange(end-start),self.Y_train[start:end].astype(int)] = 1
 		z_derivatives = [None]*self.num_layers
@@ -62,19 +41,24 @@ class NeuralNetoworkclassifier(GeneralClassifiers):
 			self.del_biases[i] +=  self.alpha * z_derivatives[i+1].sum(axis=0)
 			self.del_weights[i] +=  self.alpha*(np.dot(a[i].T,z_derivatives[i+1])) + self.reg*(self.weights[i])
 
-	def GradientDescent(self,reg,epochs,alpha,mini_batch_size):
+	def set_lr(self,alpha):
+		self.alpha = alpha
+
+	def set_reg(self,reg):	
+		self.reg = reg
+
+	def set_bs(self,mini_batch_size):
+		self.mini_batch_size = mini_batch_size		
+	
+	def GradientDescent(self,epochs):
 		self.reg = reg
 		self.epochs = epochs
 		self.alpha = alpha
 		self.mini_batch_size = mini_batch_size
 		start = 0
 		for i in range(self.epochs):
-			#print("Epoch %d"%(i))
-			#print(self.weights[0][0,:]*self.X_train[0,:] + self.biases[0])
 			self.del_biases = [np.zeros((1,y)) for y in self.sizes[1:]] ##Biases start from layer 2
 			self.del_weights = [np.zeros((x, y)) for x, y in zip(self.sizes[:-1], self.sizes[1:])]
-			# for i in range(start,min(m,start+mini_batch_size)):
-			# 	Gradient(X_train[i],Y_train[i])
 			self.Gradient(start,min(self.m,start+self.mini_batch_size))
 			for i in range(self.num_layers-1):
 				self.biases[i] = self.biases[i] - self.del_biases[i]

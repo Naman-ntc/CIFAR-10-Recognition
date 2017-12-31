@@ -1,5 +1,9 @@
+import matplotlib
+# Force matplotlib to not use any Xwindows backend.
+matplotlib.use('Agg')
 import load_data as loader
 from softmax import Softmaxclassifier
+
 import matplotlib.pyplot as plt
 import numpy as np
 

@@ -1,24 +1,32 @@
 # Linear Support Vector Machines
+Suppose some given data points each belong to one of two classes, and the goal is to decide which class a new Data point will be in. In the case of support vector machines, a data point is viewed as a p-dimensional vector, and we want to know whether we can separate such points with a (p-1)-dimensional hyperplane. This is called a linear classifier. There are many hyperplanes that might classify the data. One reasonable choice as the best hyperplane is the one that represents the largest separation, or margin, between the two classes. So we choose the hyperplane so that the distance from it to the nearest data point on each side is maximized.
 
-For Learning Rate 0.00000060 and regularization 0.0000000 train accuracy 0.2476 and val accuracy 0.2610
-For Learning Rate 0.00040000 and regularization 0.0000000 train accuracy 0.1901 and val accuracy 0.1960
-For Learning Rate 0.00000060 and regularization 0.0000010 train accuracy 0.2461 and val accuracy 0.2585
-For Learning Rate 0.00040000 and regularization 0.0000010 train accuracy 0.1901 and val accuracy 0.1960
-For Learning Rate 0.00000060 and regularization 0.0000002 train accuracy 0.2373 and val accuracy 0.2475
-For Learning Rate 0.00040000 and regularization 0.0000002 train accuracy 0.1901 and val accuracy 0.1960
-For Learning Rate 0.00000400 and regularization 0.0000000 train accuracy 0.2410 and val accuracy 0.2520
-For Learning Rate 0.00000800 and regularization 0.0000000 train accuracy 0.2395 and val accuracy 0.2515
-For Learning Rate 0.00002500 and regularization 0.0000000 train accuracy 0.2427 and val accuracy 0.2495
-For Learning Rate 0.00000060 and regularization 0.0000000 train accuracy 0.2463 and val accuracy 0.2625
-For Learning Rate 0.00000400 and regularization 0.0000010 train accuracy 0.2410 and val accuracy 0.2520
-For Learning Rate 0.00000800 and regularization 0.0000010 train accuracy 0.2395 and val accuracy 0.2515
-For Learning Rate 0.00002500 and regularization 0.0000010 train accuracy 0.2427 and val accuracy 0.2495
-For Learning Rate 0.00000060 and regularization 0.0000010 train accuracy 0.2403 and val accuracy 0.2540
-For Learning Rate 0.00000400 and regularization 0.0000002 train accuracy 0.2410 and val accuracy 0.2520
-For Learning Rate 0.00000800 and regularization 0.0000002 train accuracy 0.2395 and val accuracy 0.2515
-For Learning Rate 0.00002500 and regularization 0.0000002 train accuracy 0.2427 and val accuracy 0.2495
-For Learning Rate 0.00000060 and regularization 0.0000002 train accuracy 0.2395 and val accuracy 0.2555
-For Learning Rate 0.00000400 and regularization 0.0000080 train accuracy 0.2410 and val accuracy 0.2520
-For Learning Rate 0.00000800 and regularization 0.0000080 train accuracy 0.2395 and val accuracy 0.2515
-For Learning Rate 0.00002500 and regularization 0.0000080 train accuracy 0.2427 and val accuracy 0.2495
-For Learning Rate 0.00000060 and regularization 0.0000080 train accuracy 0.2426 and val accuracy 0.2475
+### Usage
+
+```python
+model = SVMclassifier()
+model.add_data(data,label,val_data,val_label)  
+# data is mxn dimensional np array while label is 1 dimensional np array
+model.InitializePars()
+model.set_lr(lr)
+model.set_reg(rs)
+model.set_bs(bs)
+# Use model.give_prediction(test_data,k) to get prediction for some k
+# Use model.give_prediction_and_accuracy(test_data,labels,k) to get dictionary containing both
+# prediction_labels and accuracy 
+```
+
+
+### Implementation
+It is an inherited class of Generalclassifier. The function InitializePars helps in changing the standard deviations and mean of softmax parameters.
+It performs gradient descent using rate decay over the svm loss. Decay rate can be manually set up.
+
+
+### References
+[A nice Video](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-034-artificial-intelligence-fall-2010/lecture-videos/lecture-16-learning-support-vector-machines/)
+[SVM loss function](http://cs231n.github.io/linear-classify/)
+[Wiki](https://en.wikipedia.org/wiki/Support_vector_machine#Linear_SVM)
+
+### Results
+Best Validation Accuracy 0.3585 for lr :0.00000500 rs :1000.0000 bs :600.000000 
+

@@ -1,8 +1,8 @@
 # K Nearest Neigbours Classifier
+KNN is an non parametric lazy learning algorithm. Given any point during testing time we find its k nearest neighbour in feature space and provide results based on the output
 
-KNNclassifier class uses efficient scipy cdist2 function as well as KDTree approach to find the K nearest Neighbours. After finding them using scipy mode we obtain the predictions for each of our test cases. 
+### Usage
 
-Refer to knn_test.py file on usage.
 ```python
 model = KNNclassifier()
 model.add_data(data,label)  # data is mxn dimensional np array while label is mx1 dimensional np array
@@ -11,23 +11,12 @@ model.add_data(data,label)  # data is mxn dimensional np array while label is mx
 # prediction_labels and accuracy 
 ```
 
+
+### Implementation
+KNNclassifier class uses efficient scipy cdist2 function as well as KDTree approach to find the K nearest Neighbours. After finding them using scipy mode we obtain the predictions for each of our test cases. 
+
+
+### Results
 Here are the various results obtained on object recognition using K Nearest Neighbours
 
-For k = 1 the accuracy mean is 0.28044432
-For k = 2 the accuracy mean is 0.28044414
-For k = 3 the accuracy mean is 0.28042001
-For k = 4 the accuracy mean is 0.28045532
-For k = 5 the accuracy mean is 0.28150000
-For k = 8 the accuracy mean is 0.28150000
-For k = 10 the accuracy mean is 0.28150000
-For k = 15 the accuracy mean is 0.28150000
-For k = 20 the accuracy mean is 0.28150000
-For k = 25 the accuracy mean is 0.28044443
-For k = 50 the accuracy mean is 0.28044443
-For k = 75 the accuracy mean is 0.28044443
-For k = 100 the accuracy mean is 0.28044443
-For k = 200 the accuracy mean is 0.28044443
-For k = 250 the accuracy mean is 0.28044443
-For k = 500 the accuracy mean is 0.28044443
-For k = 1000 the accuracy mean is 0.28044443
-For k = 5000 the accuracy mean is 0.28044443
+![alt text](results.txt)
