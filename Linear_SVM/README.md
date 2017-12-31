@@ -23,10 +23,12 @@ It performs gradient descent using rate decay over the svm loss. Decay rate can 
 
 
 ### References
-[A nice Video](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-034-artificial-intelligence-fall-2010/lecture-videos/lecture-16-learning-support-vector-machines/)
-[SVM loss function](http://cs231n.github.io/linear-classify/)
-[Wiki](https://en.wikipedia.org/wiki/Support_vector_machine#Linear_SVM)
+* [A nice Video](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-034-artificial-intelligence-fall-2010/lecture-videos/lecture-16-learning-support-vector-machines/)
+* [SVM loss function](http://cs231n.github.io/linear-classify/)
+* [Wiki](https://en.wikipedia.org/wiki/Support_vector_machine#Linear_SVM)
 
 ### Results
-Best Validation Accuracy 0.3585 for lr :0.00000500 rs :1000.0000 bs :600.000000 
+Best Validation Accuracy 0.3585 for learning rate:5e-6 regularization :1000
+(this regularization is regularization times learning rate)
 
+For list of results look at [Lots of results after few hundred epoches](output.txt)

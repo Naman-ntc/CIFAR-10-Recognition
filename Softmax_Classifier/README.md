@@ -22,7 +22,8 @@ It is an inherited class of Generalclassifier. The function InitializePars helps
 It performs gradient descent using rate decay over the softmax loss. Decay rate can be manually set up.
 
 ### References
+* [Brilliant Tutorial](http://ufldl.stanford.edu/tutorial/supervised/SoftmaxRegression/)
+* [Another Nice Tutorial](https://www.pyimagesearch.com/2016/09/12/softmax-classifiers-explained/)
 
-[Brilliant Tutorial](http://ufldl.stanford.edu/tutorial/supervised/SoftmaxRegression/)
-[Another Nice Tutorial](https://www.pyimagesearch.com/2016/09/12/softmax-classifiers-explained/)
+### Results
 And finally the test accuracy 0.403

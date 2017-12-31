@@ -21,7 +21,7 @@ class NeuralNetoworkclassifier(GeneralClassifiers):
 			temp = np.dot(temp,weight) + bias
 			temp = self.sigmoid(temp)
 		Y_train_temp = np.zeros((self.m,self.k))
-		Y_train_temp[range(self.m),self.Y_train] = 1
+		Y_train_temp[np.arange(self.m),self.Y_train.astype(int)] = 1
 		return 0.5*np.linalg.norm(Y_train_temp-temp)**2
 
 	def Gradient(self,start,end):
@@ -40,7 +40,7 @@ class NeuralNetoworkclassifier(GeneralClassifiers):
 		for i in range(self.num_layers-1):
 			self.del_biases[i] +=  self.alpha * z_derivatives[i+1].sum(axis=0)
 			self.del_weights[i] +=  self.alpha*(np.dot(a[i].T,z_derivatives[i+1])) + self.reg*(self.weights[i])
-
+		
 	def set_lr(self,alpha):
 		self.alpha = alpha
 
@@ -51,10 +51,7 @@ class NeuralNetoworkclassifier(GeneralClassifiers):
 		self.mini_batch_size = mini_batch_size		
 	
 	def GradientDescent(self,epochs):
-		self.reg = reg
 		self.epochs = epochs
-		self.alpha = alpha
-		self.mini_batch_size = mini_batch_size
 		start = 0
 		for i in range(self.epochs):
 			self.del_biases = [np.zeros((1,y)) for y in self.sizes[1:]] ##Biases start from layer 2
@@ -65,6 +62,7 @@ class NeuralNetoworkclassifier(GeneralClassifiers):
 				self.weights[i] = self.weights[i] - self.del_weights[i]
 			
 			start = (start+self.mini_batch_size)%self.m
+			self.alpha*=0.93
 		return
 
 	def predict(self):

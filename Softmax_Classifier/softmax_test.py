@@ -17,9 +17,9 @@ test_data, test_label = loader.load_test()
 results = {}
 best_val = -1
 best_softmax = None
-learning_rates =[] # [3e-6,2e-7,8e-7,6e-8,9e-6,4e-5]
-regularization_strengths =[] # [0,1,10,1e2,1e3,1e4,1e5,1e6,1e-1,1e-2,1e-3,1e-4]
-batch_sizes =[] # [32,64,128,150,300,600,1000]
+learning_rates =[4e-5] # [3e-6,2e-7,8e-7,6e-8,9e-6,4e-5]
+regularization_strengths =[1e5] # [0,1,10,1e2,1e3,1e4,1e5,1e6,1e-1,1e-2,1e-3,1e-4]
+batch_sizes =[600] # [32,64,128,150,300,600,1000]
 for rs in regularization_strengths:
 	for lr in learning_rates:
 		for bs in batch_sizes:
