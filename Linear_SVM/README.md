@@ -28,7 +28,6 @@ It performs gradient descent using rate decay over the svm loss. Decay rate can 
 * [Wiki](https://en.wikipedia.org/wiki/Support_vector_machine#Linear_SVM)
 
 ### Results
-Best Validation Accuracy 0.3585 for learning rate:5e-6 regularization :1000
-(this regularization is regularization times learning rate)
+Best Validation Accuracy 0.3640 for lr :0.00000500 rs :1000.0000 bs :600.000000 
 
-For list of results look at [Lots of results after few hundred epoches](output.txt)
+And Testing Accuracy is 0.3674

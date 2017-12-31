@@ -26,4 +26,6 @@ It performs gradient descent using rate decay over the softmax loss. Decay rate 
 * [Another Nice Tutorial](https://www.pyimagesearch.com/2016/09/12/softmax-classifiers-explained/)
 
 ### Results
-And finally the test accuracy 0.403
+Best Validation Accuracy 0.3345 for lr :0.00004000 rs :100000.0000 bs :600.000000 
+
+And Testing Accuracy is 0.3741
