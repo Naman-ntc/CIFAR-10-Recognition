@@ -19,4 +19,4 @@ KNNclassifier class uses efficient scipy cdist2 function as well as KDTree appro
 ### Results
 Here are the various results obtained on object recognition using K Nearest Neighbours
 
-![alt text](results.txt)
+![alt text](results.jpg)
