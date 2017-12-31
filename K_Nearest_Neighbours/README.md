@@ -20,3 +20,5 @@ KNNclassifier class uses efficient scipy cdist2 function as well as KDTree appro
 Here are the various results obtained on object recognition using K Nearest Neighbours
 
 ![alt text](results.jpg)
+
+Top notch was at 28.4%

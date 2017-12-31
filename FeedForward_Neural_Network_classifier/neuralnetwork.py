@@ -40,7 +40,8 @@ class NeuralNetoworkclassifier(GeneralClassifiers):
 		for i in range(self.num_layers-1):
 			self.del_biases[i] +=  self.alpha * z_derivatives[i+1].sum(axis=0)
 			self.del_weights[i] +=  self.alpha*(np.dot(a[i].T,z_derivatives[i+1])) + self.reg*(self.weights[i])
-		
+		return 0.5*np.linalg.norm(Y_train_temp-a[-1])**2
+
 	def set_lr(self,alpha):
 		self.alpha = alpha
 
@@ -56,7 +57,8 @@ class NeuralNetoworkclassifier(GeneralClassifiers):
 		for i in range(self.epochs):
 			self.del_biases = [np.zeros((1,y)) for y in self.sizes[1:]] ##Biases start from layer 2
 			self.del_weights = [np.zeros((x, y)) for x, y in zip(self.sizes[:-1], self.sizes[1:])]
-			self.Gradient(start,min(self.m,start+self.mini_batch_size))
+			loss = self.Gradient(start,min(self.m,start+self.mini_batch_size))
+			print(loss)
 			for i in range(self.num_layers-1):
 				self.biases[i] = self.biases[i] - self.del_biases[i]
 				self.weights[i] = self.weights[i] - self.del_weights[i]

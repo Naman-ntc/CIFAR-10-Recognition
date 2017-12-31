@@ -38,16 +38,6 @@ for rs in regularization_strengths:
 				best_softmax = model
 				best = (lr,rs,bs)
 			results[(lr,rs,bs)] = temp
-best_val  = 0.3345
-model = Softmaxclassifier()
-model.add_data(data[:48000],label[:48000],data[48000:],label[48000:],10)
-model.InitializePars()
-model.set_lr(9e-6)
-model.set_reg(100)
-model.set_bs(600)
-model.GradientDescent(750)
-best_softmax = model
-best = (9e-6,100,600)
 
 print("\n\nBest Validation Accuracy %.4f for lr :%.8f rs :%.4f bs :%f "%(best_val,best[0],best[1],best[2]))
 best_softmax.PlotPars()
