@@ -4,13 +4,14 @@ Suppose some given data points each belong to one of two classes, and the goal i
 ### Usage
 
 ```python
-model = SVMclassifier()
+model = NeuralNetoworkclassifier()
 model.add_data(data,label,val_data,val_label)  
 # data is mxn dimensional np array while label is 1 dimensional np array
-model.InitializePars()
+model.InitializePars([input_dim,hidden1,hidden2,......,output_dim])
 model.set_lr(lr)
 model.set_reg(rs)
 model.set_bs(bs)
+model.GradientDescent(num_epoches)
 # Use model.give_prediction(test_data,k) to get prediction for some k
 # Use model.give_prediction_and_accuracy(test_data,labels,k) to get dictionary containing both
 # prediction_labels and accuracy 
@@ -18,7 +19,7 @@ model.set_bs(bs)
 
 
 ### Implementation
-It is an inherited class of Generalclassifier. The function InitializePars helps in changing the standard deviations and mean of softmax parameters.
+It is an inherited class of Generalclassifier. The function InitializePars helps in changing the standard deviations and mean of svm parameters.
 It performs gradient descent using rate decay over the svm loss. Decay rate can be manually set up.
 
 

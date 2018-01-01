@@ -9,8 +9,8 @@ class NeuralNetoworkclassifier(GeneralClassifiers):
 		#First element of sizes so obviously equals the input dimension
 		self.num_layers = len(sizes)
 		self.sizes = sizes
-		self.biases = [np.random.randn(1,y) for y in sizes[1:]] ##Biases start from layer 2
-		self.weights = [np.random.randn(x, y) for x, y in zip(sizes[:-1], sizes[1:])]
+		self.biases = [1e-4*np.random.randn(1,y) for y in sizes[1:]] ##Biases start from layer 2
+		self.weights = [1e-4*np.random.randn(x, y) for x, y in zip(sizes[:-1], sizes[1:])]
 		
 
 	def CostFunc(self):

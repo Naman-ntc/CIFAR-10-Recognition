@@ -12,7 +12,7 @@ plt.rcParams['image.cmap'] = 'gray'
 
 data, label = loader.load_all()
 test_data, test_label = loader.load_test()
-
+"""
 results = {}
 best_val = -1
 best_nn = None
@@ -45,3 +45,4 @@ plt.plot(losses)
 plt.ylabel('loses over time')
 plt.savefig('Losses_over_time_NN.png')
 print("And Testing Accuracy is %.4f"%(best_nn.give_prediction_and_accuracy(test_data,test_label)['accuracy']))
+"""
