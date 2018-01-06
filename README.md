@@ -15,7 +15,7 @@ The dataset is divided into five training batches and one test batch, each with 
 | [Nearest Neighbours](K_Nearest_Neighbours) 		|	 28.15%						|
 | [Support Vector Machines](Linear_SVM)				|	 36.7%						|
 | [Softmax Regression](Softmax_Classifier)			|	 37.4%						|
-| [FeedForward Neural Networks](FeedForward_Neural_Network_classifier)|  			|
+| [FeedForward Neural Networks](FeedForward_Neural_Network_classifier)|  44.2% (Only 3 layers) 	 |
 | [Convolutional Neural Networks](Modular-CNN's)    |    							|
 | [Neural Networks on Tensorflow](Tensorflow)		|	68.3%						|	
 
